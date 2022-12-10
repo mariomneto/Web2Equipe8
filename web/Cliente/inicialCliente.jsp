@@ -20,6 +20,16 @@
         <title>JSP Page</title>
             <link href="../css/sb-admin-2.min.css" rel="stylesheet">
             <link href="../css/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+            
+            
+            <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.6.0/dt-1.13.1/b-2.3.3/r-2.4.0/datatables.min.css"/>
+            <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.6.0/dt-1.13.1/b-2.3.3/r-2.4.0/datatables.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+            <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     </head>
     <%
         Util util = new Util();
@@ -42,10 +52,9 @@
             }
         }
     %>
-    <body>
-        
+    <body class="bg-gradient-primary">
         <div class="container-fluid">
-            <h1 class="h3 mb-2 text-gray-800">Página Inicial: Cliente</h1>
+            <h1 class="h3 mb-2 text-white">Cliente</h1>
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -53,13 +62,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-striped table-bordered" id="tabela" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Número Pedido</th>
-                                    <th>Orçamento</th>
+                                    <th>Valor</th>
                                     <th>Prazo</th>
-                                    <th>Status</th>
+                                    <th>Estado do Pedido</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,7 +80,7 @@
                                         String status = util.traduzStatusPedido(pedidosFiltrados.get(i).getStatus()); 
                                     %>
                                     <tr>
-                                        <td><%= numPedido %></td>
+                                        <td>#<%= numPedido %></td>
                                         <td>R$ <%= orcamento %></td>
                                         <td><%= prazo %></td>
                                         <td><%= status %></td>
@@ -81,7 +90,7 @@
                             <tfoot>
                                 <tr>
                                     <th>Número Pedido</th>
-                                    <th>Orçamento</th>
+                                    <th>Valor</th>
                                     <th>Prazo</th>
                                     <th>Status</th>
                                 </tr>
@@ -92,17 +101,10 @@
             </div>
         </div>
         
-        <script src="../css/jquery/jquery.min.js"></script>
-        <script src="../css/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="../css/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="../js/sb-admin-2.min.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="../css/datatables/jquery.dataTables.min.js"></script>
-        <script src="../css/datatables/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript" language="javascript">
+            $(document).ready(function () {
+                    $('#tabela').DataTable();
+            });
+        </script>
     </body>
 </html>

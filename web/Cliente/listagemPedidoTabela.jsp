@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="css/sb-admin-2.min.css">
-        <link rel="stylesheet" href="css/listagemPedido.css">
+        <link rel="stylesheet" href="../css/sb-admin-2.min.css">
+        <link rel="stylesheet" href="../css/listagemPedido.css">
         <script src="listagemPedido.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
@@ -21,19 +21,17 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
         <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-
-   
-
-
     </head>
     <body class="bg-gradient-primary">
         <div class="container-fluid">
-            <div class="card o-hidden border-0 shadow-lg my-5 ">
+            <h1 class="h3 mb-2 text-white">Cliente</h1>
+            
+            <div class="card shadow mb-4">
                 <div class="card-body p-0 my-auto text-truncate">
-                    <div class="p-5">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Historico de Pedidos</h6>
-                        </div>
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Histórico de Pedidos</h6>
+                    </div>
+                    <div class="card-body">
                         <div class="card-body">
                             <p>Filtrar pedidos: 
                                 <button class="btn btn-warning " id="ab">Em Aberto</button>
@@ -56,8 +54,8 @@
                                         <th>Numero do Pedido</th>
                                                         <th>Itens</th>
                                                         <th>Estado do Pedido</th>
-                                                        <th>Valor(R$)</th>
-                                        <th>Data</th>
+                                                        <th>Valor</th>
+                                        <th>Prazo</th>
                                                         <th>Cancelar (caso Em Aberto)</th>
                                                     </tr>
                                             </thead>
@@ -109,8 +107,8 @@
                                                           <th>Numero do Pedido</th>
                                                         <th>Itens</th>
                                                         <th>Estado do Pedido</th>
-                                                        <th>Valor(R$)</th>
-                                        <th>Data</th>
+                                                        <th>Valor</th>
+                                        <th>Prazo</th>
                                                         <th>Cancelar (caso Em Aberto)</th>
                                                     </tr>
                                             </tfoot>
