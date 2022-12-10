@@ -25,11 +25,11 @@ public class Pedido {
         this.numPedido = numPedido;
     }
     
-    public int getNum_pedido() {
+    public int getNumPedido() {
         return numPedido;
     }
 
-    public void setNum_pedido(int numPedido) {
+    public void setNumPedido(int numPedido) {
         this.numPedido = numPedido;
     }
 

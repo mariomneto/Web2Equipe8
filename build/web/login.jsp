@@ -25,6 +25,9 @@
                                 <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Logar" />
                             </form>
                     </div>
+                    <div class="text-center">
+                        <a class="small" href="cadastro.jsp">Cadastrar uma conta.</a>
+                    </div>
                 </div>    
             </div>
         </div>

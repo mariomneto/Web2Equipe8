@@ -41,7 +41,10 @@
                                     placeholder="Telefone" id="telefone" name="telefone">
                             </div>
                             <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Cadastrar" />
-                          </form>
+                        </form>
+                        <div class="text-center">
+                            <a class="small" href="login.jsp">Já tenho conta, ir para Login.</a>
+                        </div>
                     </div>
                 </div>
             </div>
