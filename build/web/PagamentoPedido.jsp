@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-4 col-6 ps-30 my-4">
                             <p class="text-muted">Data de entrega</p>
-                            <p class="h5 m-0"><%out.println(pedido.getPrazo()); %></p>
+                            <p class="h5 m-0"><%out.println(pedido.getPrazoFormatado()); %></p>
                         </div>
                         <div class="col-md-4 col-6 ps-30 my-4">
                             <p class="text-muted">Status</p>

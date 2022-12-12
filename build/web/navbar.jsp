@@ -24,29 +24,28 @@
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="login.jsp">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                   <span>Tela Inicial</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
             </div>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
                     aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span>Configurações</span>
                 </a>
                 <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item active" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <h6 class="collapse-header">Menu</h6>
+                        <a class="collapse-item active" href="Cliente/inicialCliente.jsp">Meu Perfil</a>
+                        <a class="collapse-item" href="Cliente/listagemPedidoTabela.jsp"> Meus Pedidos</a>
                     </div>
                 </div>
             </li>
@@ -55,27 +54,25 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <span>Utilidades</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        <h6 class="collapse-header">Utilidades</h6>
+                        <a class="collapse-item" href="Pedido.jsp">Efetuar Pedidos</a>
+                        <a class="collapse-item" href="ConsultaPedido.jsp">Consultar Pedidos</a>
+                        <!-- if (tipoUsuario == funcionario){ !-->
+                        <a class="collapse-item" href="RelatoriosClientes.jsp">Relatórios</a>
+                        <a class="collapse-item" href="ManutencaoFuncionarios.jsp">Menu Funcionários</a>
+                        <a class="collapse-item" href="ManutencaoPecasdeRoupa.jsp">Adicionar Peças Roupas</a>
                     </div>
                 </div>
             </li>
             <!-- Divider -->
-            <hr class="sidebar-divider">
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <%--    <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -105,7 +102,7 @@
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
-            </li>
+            </li> --%>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
             <!-- Sidebar Toggler (Sidebar) -->

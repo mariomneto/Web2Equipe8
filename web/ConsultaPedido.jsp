@@ -68,7 +68,7 @@
                                                <td>  <% for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
                                                     out.println (pedido.getPedidoProduto().get(i).getQuantidade() +" <br>");  }
                                              %></td>
-                                            <td><%out.println(pedido.getPrazo()); %></td>
+                                            <td><%out.println(pedido.getPrazoFormatado()); %></td>
                                             <td><%out.println(pedido.getStatus()); %></td>
                                             <td><%out.println("R$ " + pedido.getOrcamento()); %></td>
                                             <% 

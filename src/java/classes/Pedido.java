@@ -96,7 +96,10 @@ public class Pedido {
     }
         return orc;}
 
-    public String getPrazo() {
+    public Date getPrazo(){
+         return prazo;
+     }
+    public String getPrazoFormatado() {
             Locale brasil = new Locale("pt", "BR");
             DateFormat f = DateFormat.getDateInstance(DateFormat.FULL, brasil);
             return f.format(prazo);
