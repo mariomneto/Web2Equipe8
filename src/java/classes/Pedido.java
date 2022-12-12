@@ -54,7 +54,12 @@ public class Pedido {
         this.numPedido = numPedido;
     }
 
-  
+    public Pedido(Status status, double orcamento, Date prazo, int numPedido) {
+        this.status = status;
+        this.orcamento = orcamento;
+        this.prazo = prazo;
+        this.numPedido = numPedido;
+    }
     
     public Pedido(Status status, double orcamento, Date prazo, int numPedido, List<PedidoProduto> PedidoProduto, PagamentoCartao pagamento) {
         this.status = status;

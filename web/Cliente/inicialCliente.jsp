@@ -75,7 +75,7 @@
                                 <% for(int i = 0; i < pedidosFiltrados.size(); i++){ %>
                                     <% 
                                         int numPedido = pedidosFiltrados.get(i).getNumPedido();
-                                        float orcamento = pedidosFiltrados.get(i).getOrcamento();
+                                        double orcamento = pedidosFiltrados.get(i).getOrcamento();
                                         String prazo = dateFormat.format(pedidosFiltrados.get(i).getPrazo());
                                         String status = util.traduzStatusPedido(pedidosFiltrados.get(i).getStatus()); 
                                     %>

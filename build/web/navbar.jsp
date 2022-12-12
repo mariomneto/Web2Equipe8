@@ -44,7 +44,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu</h6>
-                        <a class="collapse-item active" href="Cliente/inicialCliente.jsp">Meu Perfil</a>
+                        <a class="collapse-item active" href="Cliente/inicialCliente.jsp">Página Inicial</a>
                         <a class="collapse-item" href="Cliente/listagemPedidoTabela.jsp"> Meus Pedidos</a>
                     </div>
                 </div>
