@@ -22,7 +22,7 @@
         <title>Consulta Pedido</title>
         <div>
           <form action= "ConsultaPedidoServlet" method="post"  class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 text-dark">
-              <h2> Consultar Pedido </h2>
+              <h2 class="font-weight-bold"> Consultar Pedido </h2>
               <div class="input-group">
                             <input type="number" name="pesquisapedido" class="form-control-lg bg-light border-0 small" placeholder="Insira o número do pedido"
                                 aria-label="Search" aria-describedby="basic-addon2" required >

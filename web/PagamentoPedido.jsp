@@ -24,51 +24,58 @@
       <% HttpSession sess = request.getSession(false);
      ArrayList<Pedido> list = (ArrayList<Pedido>) sess.getAttribute("list");
         for(Pedido pedido : list){ %> 
-        <title>Pagamento Pedido</title>
-        <div class="container">
-        <div class="row m-0">
-            <div class="col-lg-7 pb-5 pe-lg-5">
-                <div class="row">
-                    <div class="col-12 p-5">
+       <title>Pagamento Pedido</title>
+            <div class="container-md">
+             <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="row m-0">
+                 <div class="col-lg-6 pb-5 pe-lg-5">
+                    <div class="row m-0">
+                        <div class="d-flex align-items-lg-start mt-0 mb-auto">
+                            <p class="h2 m-0"><span class="font-weight-bolder">Detalhes do pedido</span></P>
+                        </div>
                     </div>
-                    <div class="row m-5 bg-light">
-                        <div class="col-md-4 col-6 ps-30 pe-0 my-4">
-                            <p class="text-muted">Produtos</p>
-                            <p class="h5"><%    for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
+                    <div class="col-12 p-md-5">
+                        
+                    <div class="row m-4 bg-light">
+                        <div class="col-md-4 col-5 ps-30 pe-0 my-4">
+                            <p class="font-weight-bold">Produtos</p>
+                            <p class="font-weight-normal h5 text-dark"><%    for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
                                                 out.println(pedido.getPedidoProduto().get(i).getProduto().getNome() + "<br>");
                                              } %>
                                 <span class="ps-1"></span></p>
                         </div>
                         <div class="col-md-4 col-6  ps-30 my-4">
-                            <p class="text-muted">Quantidade</p>
-                            <p class="h5 m-0"><% for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
+                            <p class="font-weight-bold">Quantidade</p>
+                            <p class="font-weight-normal h5 m-0 text-info"><% for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
                                                     out.println (pedido.getPedidoProduto().get(i).getQuantidade() +" <br>");  }
                                              %></p>
                         </div>
                         <div class="col-md-4 col-6 ps-30 my-4">
-                            <p class="text-muted">Data de entrega</p>
-                            <p class="h5 m-0"><%out.println(pedido.getPrazoFormatado()); %></p>
+                            <p class="font-weight-bold"></p>
+                            <p class="font-weight-normal h5 m-0"></p>
                         </div>
-                        <div class="col-md-4 col-6 ps-30 my-4">
-                            <p class="text-muted">Status</p>
-                            <p class="h5 m-0"><% out.println(pedido.getStatus()); %></p>
+                         <div class="col-md-4 col-6 ps-30 my-4">
+                            <p class="font-weight-bold">Data de entrega</p>
+                            <p class="font-weight-normal h5 m-0 text-dark"><%out.println(pedido.getPrazoFormatado()); %></p>
+                        </div>
+                        <div class="col-md-8 col-6 ps-30 my-4">
+                            <p class="font-weight-bold">Status</p>
+                            <p class="font-weight-normal h5 m-1 text-dark"><% out.println(pedido.getStatus()); %></p>
                         </div>
                     </div>
+                    </div>
                 </div>
-            </div>
             <div class="col-lg-5 p-0 ps-lg-4">
-                <div class="row m-0">
+                <div class="row m-1">
                     <div class="col-12 px-4">
-                        <div class="d-flex align-items-end mt-4 mb-2">
-                            <p class="h4 m-0"><span class="pe-1">Pedido</span>
-                        </div>
+                  
                         <div class="d-flex justify-content-between mb-2">
-                            <p class="textmuted"> Número do pedido : <%  out.println(pedido.getNumPedido()); %></p>
+                            <p class="font-weight-bold"> Número do pedido : <%  out.println(pedido.getNumPedido()); %></p>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
-                            <p class="textmuted fw-bold">Total</p>
-                            <div class="d-flex align-text-top ">
-                          <span class="h4"><% out.println(pedido.getOrcamento() + "R$"); %></span>
+                            <p class="font-weight-bolder h2">Total:</p>
+                            <div class="d-flex align-text-bottom ">
+                          <span class="font-weight-normal text-danger h3"><% out.println(pedido.getOrcamento() + "R$"); %></span>
                             </div>
                         </div>
                     </div><% } %>
@@ -76,18 +83,18 @@
                         <form action= "PagamentoPedidoServlet" method="post">
                         <div class="row bg-light m-0">
                             <div class="col-12 px-4 my-4">
-                                <p class="fw-bold">Detalhes do pagamento</p>
+                                <p class="font-weight-bold">Detalhes do pagamento</p>
                             </div>
                             
                             <div class="col-12 px-4">
                                 <div class="d-flex  mb-4">
                                     <span class="">
-                                        <p class="text-muted">Número do cartão</p>
+                                        <p class="font-weight-bold">Número do cartão</p>
                                         <input class="form-control" type="number" name="numcard" required
                                             placeholder="1234 5678 9012 3456">
                                     </span>
                                     <div class=" w-100 d-flex flex-column align-items-end">
-                                        <p class="text-muted">Validade</p>
+                                        <p class="font-weight-bold">Validade</p>
      <select name="mes" id=""  class="custom-select" required>
         <option value="">Mês</option> 
         <option value="01">01</option>
@@ -119,12 +126,12 @@
                                 </div>
                                 <div class="d-flex mb-5">
                                     <span class="me-5">
-                                        <p class="text-muted">Titular</p>
+                                        <p class="font-weight-bold">Titular</p>
                                         <input class="form-control" type="text" name="titular"
                                             placeholder="Nome">
                                     </span>
                                     <div class="w-100 d-flex flex-column align-items-end">
-                                        <p class="text-muted">CVC</p>
+                                        <p class="font-weight-bold">CVC</p>
                                         <input class="form-control" type="text" maxlength="3" name="cvc" placeholder="3 digitos finais" pattern="[0-9]{3}" required>
                                     </div>
                                 </div>
@@ -140,7 +147,7 @@
             </div>
         </div>
     </div>
-
+ </div>
          
         
     </body>
