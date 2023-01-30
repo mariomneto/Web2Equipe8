@@ -64,8 +64,11 @@
                         <a class="collapse-item" href="ConsultaPedido.jsp">Consultar Pedidos</a>
                         <!-- if (tipoUsuario == funcionario){ !-->
                         <a class="collapse-item" href="RelatoriosClientes.jsp">Relatórios</a>
-                        <a class="collapse-item" href="ManutencaoFuncionarios.jsp">Menu Funcionários</a>
-                        <a class="collapse-item" href="ManutencaoPecasdeRoupa.jsp">Adicionar Peças Roupas</a>
+                        <a class="collapse-item" href="ManutencaoFuncionarios.jsp">Listar Funcionários</a>
+                        <a class="collapse-item" href="ManutencaoPecasdeRoupa.jsp">Listar Peças Roupas</a>
+                        <a class="collapse-item" href="EditarFuncionarios.jsp">Editar Funcionarios</a>
+                        <a class="collapse-item" href="EditarPecasdeRoupa.jsp">Editar Peças de Roupa</a>
+
                     </div>
                 </div>
             </li>
