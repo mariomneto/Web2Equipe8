@@ -4,11 +4,13 @@
  */
 package classes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author T-GAMER
  */
-public class PedidoProduto {
+public class PedidoProduto implements Serializable {
     private Produto produto;
     private int quantidade;
 

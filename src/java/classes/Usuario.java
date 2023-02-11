@@ -1,6 +1,8 @@
 package classes;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable{
     public enum Tipo {
         CLIENTE,
         FUNCIONARIO
@@ -14,6 +16,9 @@ public class Usuario {
     private String senha;
     private Tipo tipoUsuario;
     
+    public Usuario(){
+        
+    }
     public Usuario(String CPF, String nome, String email, String endereco, String telefone, String senha, Tipo tipoUsuario){
         this.CPF = CPF;
         this.nome = nome;

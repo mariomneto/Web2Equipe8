@@ -9,6 +9,9 @@
 <%@ page import="classes.Pedido"%>
 <%@ page import=" static classes.Pedido.Status"%>
 <%@ page import="java.util.ArrayList"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
+<fmt:setLocale value="pt-BR" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,12 +22,22 @@
         <link href="resource/bootstrap/css/estilopay.css" rel="stylesheet">
         <link href="resource/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+          <c:choose>
+           <c:when test="${not empty sessionScope.login}">
+               <a class=navbar-brand href=#><c:out value="${sessionScope.login}" /></a>
+                </c:when>
+           <c:otherwise>
+               <jsp:forward page="index.jsp">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o Sistema"/>
+                </jsp:forward>
+                </c:otherwise>
+       </c:choose>
     </head>
-        <%@include  file="navbar.jsp" %>
-      <% HttpSession sess = request.getSession(false);
-     ArrayList<Pedido> list = (ArrayList<Pedido>) sess.getAttribute("list");
-        for(Pedido pedido : list){ %> 
-       <title>Pagamento Pedido</title>
+     <%@include  file="navbar.jsp" %>
+     <c:choose>
+      <c:when test='${not empty requestScope ["pedido"]}'>
+       <c:set var="pedido" value='${requestScope ["pedido"]}'/>  
+        <title>Pagamento Pedido</title>
             <div class="container-md">
              <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="row m-0">
@@ -39,16 +52,16 @@
                     <div class="row m-4 bg-light">
                         <div class="col-md-4 col-5 ps-30 pe-0 my-4">
                             <p class="font-weight-bold">Produtos</p>
-                            <p class="font-weight-normal h5 text-dark"><%    for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
-                                                out.println(pedido.getPedidoProduto().get(i).getProduto().getNome() + "<br>");
-                                             } %>
+                            <p class="font-weight-normal h5 text-dark"><c:forEach items="${pedido.pedidoProduto}" var="pedidos" >
+                                                                            <c:out value="${pedidos.produto.nome}" /><br>
+                                                                       </c:forEach>
                                 <span class="ps-1"></span></p>
                         </div>
                         <div class="col-md-4 col-6  ps-30 my-4">
                             <p class="font-weight-bold">Quantidade</p>
-                            <p class="font-weight-normal h5 m-0 text-info"><% for(int i = 0 ; i < pedido.getPedidoProduto().size(); i++){
-                                                    out.println (pedido.getPedidoProduto().get(i).getQuantidade() +" <br>");  }
-                                             %></p>
+                            <p class="font-weight-normal h5 m-0 text-info"><c:forEach items="${pedido.pedidoProduto}" var="pedido1" >
+                                                                            <c:out value="${pedido1.produto.valor}" /><br>
+                                                                           </c:forEach></p>
                         </div>
                         <div class="col-md-4 col-6 ps-30 my-4">
                             <p class="font-weight-bold"></p>
@@ -56,11 +69,11 @@
                         </div>
                          <div class="col-md-4 col-6 ps-30 my-4">
                             <p class="font-weight-bold">Data de entrega</p>
-                            <p class="font-weight-normal h5 m-0 text-dark"><%out.println(pedido.getPrazoFormatado()); %></p>
+                            <p class="font-weight-normal h5 m-0 text-dark"><c:out value="${pedido.prazoFormatado}"/></p>
                         </div>
                         <div class="col-md-8 col-6 ps-30 my-4">
                             <p class="font-weight-bold">Status</p>
-                            <p class="font-weight-normal h5 m-1 text-dark"><% out.println(pedido.getStatus()); %></p>
+                            <p class="font-weight-normal h5 m-1 text-dark"><c:out value="${pedido.status}"/></p>
                         </div>
                     </div>
                     </div>
@@ -70,17 +83,19 @@
                     <div class="col-12 px-4">
                   
                         <div class="d-flex justify-content-between mb-2">
-                            <p class="font-weight-bold"> Número do pedido : <%  out.println(pedido.getNumPedido()); %></p>
+                            <p class="font-weight-bold"> Número do pedido : <c:out value="${pedido.numPedido}" /></p>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
                             <p class="font-weight-bolder h2">Total:</p>
                             <div class="d-flex align-text-bottom ">
-                          <span class="font-weight-normal text-danger h3"><% out.println(pedido.getOrcamento() + "R$"); %></span>
+                               
+                          <span class="font-weight-normal text-danger h3"><fmt:formatNumber value="${pedido.orcamento}" minFractionDigits="2" type="currency" /></span>
                             </div>
                         </div>
-                    </div><% } %>
+                    </div>
                     <div class="col-12 px-0">
-                        <form action= "PagamentoPedidoServlet" method="post">
+                        <c:url value="/ClienteServlet?action=pagarPedido&id=${pedido.numPedido}" var="url" />
+                        <form action="${url}" method="post">
                         <div class="row bg-light m-0">
                             <div class="col-12 px-4 my-4">
                                 <p class="font-weight-bold">Detalhes do pagamento</p>
@@ -148,7 +163,16 @@
         </div>
     </div>
  </div>
+         </c:when>
+         <c:otherwise>
+               <jsp:forward page="index.html">
+                <jsp:param name="msg" value="Erro ao verificar Pedido!"/>
+                </jsp:forward>
+                </c:otherwise>
+         </c:choose>
+       
          
         
     </body>
 </html>
+

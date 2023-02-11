@@ -4,13 +4,14 @@
  */
 package classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 
-public class PagamentoCartao{
+public class PagamentoCartao implements Serializable{
     private double valor;
     private Date data;
     private int numerocartao;

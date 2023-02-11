@@ -1,13 +1,14 @@
 package classes;
 
 import static classes.Pedido.Status.AGUARDANDO_PAGAMENTO;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Pedido {
+public class Pedido implements Serializable{
 
     public Pedido() {
     }
