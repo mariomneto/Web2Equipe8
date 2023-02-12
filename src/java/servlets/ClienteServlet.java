@@ -57,10 +57,11 @@ public class ClienteServlet extends HttpServlet {
              String action = request.getParameter("action");
              if (action.equals ("listarPedidosCliente") || action == null){
               try{
-                    int id = (int) session.getAttribute("idLogado");
-                    ClienteFacade clientefacade = new ClienteFacade();
                     Cliente cliente = new Cliente();
-                    cliente = clientefacade.buscarCliente(id);
+                    cliente = (Cliente) session.getAttribute("login");
+                    String CPF = cliente.getCPF();
+                    ClienteFacade clientefacade = new ClienteFacade();         
+                    cliente = clientefacade.buscarCliente(CPF);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listagemPedidoTabela.jsp");
                     request.setAttribute("pedidosCliente", cliente);
                     dispatcher.forward(request,response);
@@ -132,7 +133,9 @@ public class ClienteServlet extends HttpServlet {
              
              else if(action.equals ("adicionarPedido")){
                try {
-                    int id = (int) session.getAttribute("idLogado");
+                    Cliente cliente = new Cliente();
+                    cliente = (Cliente) session.getAttribute("login");
+                    String CPF = cliente.getCPF();
                     String [] prod = request.getParameterValues("produtoselecionados");
                     int[] produtos = Stream.of(prod)
                            .mapToInt(Integer::parseInt)
@@ -142,7 +145,6 @@ public class ClienteServlet extends HttpServlet {
                            .mapToInt(Integer::parseInt)
                            .toArray();
                     ClienteFacade clientefacade = new ClienteFacade();
-                    Cliente cliente = new Cliente();
                     Produto produto = new Produto();
                     PedidoProduto pedidoproduto = new PedidoProduto();
                     Pedido pedido= new Pedido();
@@ -158,7 +160,7 @@ public class ClienteServlet extends HttpServlet {
                     pedido.setOrcamento(pedido.calculaOrcamento());
                     pedido.setStatus(EM_ABERTO);
                     int idPedido = clientefacade.adicionarPedido(pedido);
-                    cliente = clientefacade.buscarCliente(id);
+                    cliente = clientefacade.buscarCliente(CPF);
                     List<Pedido> pedidos= new ArrayList<>();
                     pedidos.add(pedido);
                     cliente.setPedidos(pedidos);
@@ -182,7 +184,9 @@ public class ClienteServlet extends HttpServlet {
              }
              else if(action.equals ("rejeitarOrcamento")){
               try{
-                    int id = (int) session.getAttribute("idLogado");
+                    Cliente cliente = new Cliente();
+                    cliente = (Cliente) session.getAttribute("login");
+                    String CPF = cliente.getCPF();
                     String [] prod = request.getParameterValues("produtoselecionados");
                      int[] produtos = Stream.of(prod)
                            .mapToInt(Integer::parseInt)
@@ -192,7 +196,6 @@ public class ClienteServlet extends HttpServlet {
                            .mapToInt(Integer::parseInt)
                            .toArray();
                     ClienteFacade clientefacade = new ClienteFacade();
-                    Cliente cliente = new Cliente();
                     Produto produto = new Produto();
                     PedidoProduto pedidoproduto = new PedidoProduto();
                     Pedido pedido= new Pedido();
@@ -208,7 +211,7 @@ public class ClienteServlet extends HttpServlet {
                     pedido.setOrcamento(pedido.calculaOrcamento());
                     pedido.setStatus(REJEITADO);
                     int idPedido = clientefacade.adicionarPedido(pedido);
-                    cliente = clientefacade.buscarCliente(id);
+                    cliente = clientefacade.buscarCliente(CPF);
                     List<Pedido> pedidos= new ArrayList<>();
                     pedidos.add(pedido);
                     cliente.setPedidos(pedidos);

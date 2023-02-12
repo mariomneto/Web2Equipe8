@@ -23,17 +23,17 @@ public class FuncionarioFacade {
    public List<Funcionario> listarFuncionarios(){
         return funcionariodao.listar();
    }
-   public Funcionario buscarFuncionario(int id){
-        return funcionariodao.buscar(id);
+   public Funcionario buscarFuncionario(String CPF){
+        return funcionariodao.buscar(CPF);
    }
-   public void adicionaFuncionario(Funcionario funcionario){
+   public void adicionarFuncionario(Funcionario funcionario){
        funcionariodao.adicionar(funcionario);
    }
    public void atualizarFuncionario(Funcionario funcionario){
        funcionariodao.atualizar(funcionario);
    }
-   public void removerFuncionario(int id){
-       funcionariodao.remover(id);
+   public void removerFuncionario(String CPF){
+       funcionariodao.remover(CPF);
    }
    public List<Produto> listarProdutos(){
        return produtodao.listar();
@@ -69,5 +69,9 @@ public class FuncionarioFacade {
    public void removerPedido(int id){
        pedidodao.remover(id);
    }
+   public boolean verificaCPF(String CPF){
+       return funcionariodao.verifica(CPF);
+   }
+    
     
 }

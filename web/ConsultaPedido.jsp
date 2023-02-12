@@ -116,6 +116,9 @@
                                  <c:out value="${mensagem1}"/>
                                 </div>
                         </div></c:if>
+                            </table>
+                      </div>
+                </div>
 
     <!-- Modal para pagamento -->
     <div class="modal fade" id="pagarModal" tabindex="-1" role="dialog" aria-labelledby="pagarModalLabel" aria-hidden="true">
