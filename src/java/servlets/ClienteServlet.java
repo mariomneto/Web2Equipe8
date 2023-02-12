@@ -56,36 +56,40 @@ public class ClienteServlet extends HttpServlet {
             else{
              String action = request.getParameter("action");
              if (action.equals ("listarPedidosCliente") || action == null){
-                int id = (int) session.getAttribute("idLogado");
-                ClienteFacade clientefacade = new ClienteFacade();
-                Cliente cliente = new Cliente();
-                cliente = clientefacade.buscarCliente(id);
-                    if(cliente != null){
+              try{
+                    int id = (int) session.getAttribute("idLogado");
+                    ClienteFacade clientefacade = new ClienteFacade();
+                    Cliente cliente = new Cliente();
+                    cliente = clientefacade.buscarCliente(id);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listagemPedidoTabela.jsp");
                     request.setAttribute("pedidosCliente", cliente);
                     dispatcher.forward(request,response);
-                    }else{
-                      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pedidoListar.jsp");
-                      request.setAttribute("msg", "Pedidos do cliente não encontrados.");
-                      dispatcher.forward(request,response);  
+                }catch (ClassCastException e) {
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pedidoListar.jsp");
+                    request.setAttribute("msg", "Erro ao obter o ID do usuário logado!");
+                    dispatcher.forward(request,response);
+                } catch (Exception e) {
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/pedidoListar.jsp");
+                    request.setAttribute("msg", "Erro ao obter os pedidos do cliente!");
+                    dispatcher.forward(request,response);
                 }
              }
              else if(action.equals ("pedidoForm")){
+               try{
                 ClienteFacade clientefacade = new ClienteFacade();
                 List <Produto> produtos= new ArrayList<>();
                 produtos = clientefacade.listarProdutos();
-                 if(produtos != null){
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Pedido.jsp");
-                    request.setAttribute("produtos", produtos);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Pedido.jsp");
+                request.setAttribute("produtos", produtos);
+                dispatcher.forward(request,response);
+                } catch (Exception e) {
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+                    request.setAttribute("msg", "Os dados não foram encontrados.");
                     dispatcher.forward(request,response);
-                    }else{
-                      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-                      request.setAttribute("msg", "Os dados não foram encontrados.");
-                      dispatcher.forward(request,response);
-                    }  
-                 
+                    e.printStackTrace();}
              }
              else if (action.equals ("verificarOrcamento")){ 
+                 try{
                  String [] prod = request.getParameterValues("produtoselecionados");
                   int[] produtos = Stream.of(prod)
                         .mapToInt(Integer::parseInt)
@@ -110,95 +114,141 @@ public class ClienteServlet extends HttpServlet {
                    pedido.setOrcamento(pedido.calculaOrcamento());
                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Pedido.jsp");
                    request.setAttribute("orcamento", pedido);
-                   dispatcher.forward(request,response);    
-             }
-             else if(action.equals ("adicionarPedido")){
-                 int id = (int) session.getAttribute("idLogado");
-                 String [] prod = request.getParameterValues("produtoselecionados");
-                  int[] produtos = Stream.of(prod)
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
-                 String [] quant= request.getParameterValues("quantidadeselecionadas");
-                  int[] quantidade = Stream.of(quant)
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
-                 ClienteFacade clientefacade = new ClienteFacade();
-                 Cliente cliente = new Cliente();
-                 Produto produto = new Produto();
-                 PedidoProduto pedidoproduto = new PedidoProduto();
-                 Pedido pedido= new Pedido();
-                 List<PedidoProduto> listaProdutos= new ArrayList<>();
-                   for (int i = 0; i <= produtos.length; i++ ){
-                       produto = clientefacade.buscarProduto(produtos[i]);
-                       pedidoproduto.setProduto(produto);
-                       pedidoproduto.setQuantidade(quantidade[i]);
-                       listaProdutos.add(pedidoproduto); 
+                   dispatcher.forward(request,response); 
+                    } catch (NumberFormatException e) {        
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Erro ao converter dados para o formato correto");
+                       dispatcher.forward(request,response);
+                   }catch (ArrayIndexOutOfBoundsException e) {
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Erro ao acessar dados fora do limite do array");
+                       dispatcher.forward(request,response);
+                   }catch (Exception e) {
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Ocorreu um erro inesperado");
+                       dispatcher.forward(request,response);
                    }
-                   pedido.setPedidoProduto(listaProdutos);
-                   pedido.setPrazo(new Date());
-                   pedido.setOrcamento(pedido.calculaOrcamento());
-                   pedido.setStatus(EM_ABERTO);
-                   int idPedido = clientefacade.adicionarPedido(pedido);
-                   cliente = clientefacade.buscarCliente(id);
-                   List<Pedido> pedidos= new ArrayList<>();
-                   pedidos.add(pedido);
-                   cliente.setPedidos(pedidos);
-                   clientefacade.atualizarCliente(cliente);
-                   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Cliente/inicialCliente.jsp");
-                   request.setAttribute("msg", "Pedido efetuado com sucesso!" + idPedido);
-                   dispatcher.forward(request,response);       
+               }
+             
+             else if(action.equals ("adicionarPedido")){
+               try {
+                    int id = (int) session.getAttribute("idLogado");
+                    String [] prod = request.getParameterValues("produtoselecionados");
+                    int[] produtos = Stream.of(prod)
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+                    String [] quant= request.getParameterValues("quantidadeselecionadas");
+                    int[] quantidade = Stream.of(quant)
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+                    ClienteFacade clientefacade = new ClienteFacade();
+                    Cliente cliente = new Cliente();
+                    Produto produto = new Produto();
+                    PedidoProduto pedidoproduto = new PedidoProduto();
+                    Pedido pedido= new Pedido();
+                    List<PedidoProduto> listaProdutos= new ArrayList<>();
+                    for (int i = 0; i <= produtos.length; i++ ){
+                        produto = clientefacade.buscarProduto(produtos[i]);
+                        pedidoproduto.setProduto(produto);
+                        pedidoproduto.setQuantidade(quantidade[i]);
+                        listaProdutos.add(pedidoproduto); 
+                    }
+                    pedido.setPedidoProduto(listaProdutos);
+                    pedido.setPrazo(new Date());
+                    pedido.setOrcamento(pedido.calculaOrcamento());
+                    pedido.setStatus(EM_ABERTO);
+                    int idPedido = clientefacade.adicionarPedido(pedido);
+                    cliente = clientefacade.buscarCliente(id);
+                    List<Pedido> pedidos= new ArrayList<>();
+                    pedidos.add(pedido);
+                    cliente.setPedidos(pedidos);
+                    clientefacade.atualizarCliente(cliente);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Cliente/inicialCliente.jsp");
+                    request.setAttribute("msg", "Pedido efetuado com sucesso!" + idPedido);
+                    dispatcher.forward(request,response);
+                   } catch (NumberFormatException e) {        
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Erro ao converter dados para o formato correto");
+                       dispatcher.forward(request,response);
+                   }catch (ArrayIndexOutOfBoundsException e) {
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Erro ao acessar dados fora do limite do array");
+                       dispatcher.forward(request,response);
+                   }catch (Exception e) {
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Ocorreu um erro inesperado");
+                       dispatcher.forward(request,response);
+                   }
              }
              else if(action.equals ("rejeitarOrcamento")){
-                 int id = (int) session.getAttribute("idLogado");
-                 String [] prod = request.getParameterValues("produtoselecionados");
-                  int[] produtos = Stream.of(prod)
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
-                 String [] quant= request.getParameterValues("quantidadeselecionadas");
-                  int[] quantidade = Stream.of(quant)
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
-                 ClienteFacade clientefacade = new ClienteFacade();
-                 Cliente cliente = new Cliente();
-                 Produto produto = new Produto();
-                 PedidoProduto pedidoproduto = new PedidoProduto();
-                 Pedido pedido= new Pedido();
-                 List<PedidoProduto> listaProdutos= new ArrayList<>();
-                   for (int i = 0; i <= produtos.length; i++ ){
-                       produto = clientefacade.buscarProduto(produtos[i]);
-                       pedidoproduto.setProduto(produto);
-                       pedidoproduto.setQuantidade(quantidade[i]);
-                       listaProdutos.add(pedidoproduto); 
+              try{
+                    int id = (int) session.getAttribute("idLogado");
+                    String [] prod = request.getParameterValues("produtoselecionados");
+                     int[] produtos = Stream.of(prod)
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+                    String [] quant= request.getParameterValues("quantidadeselecionadas");
+                     int[] quantidade = Stream.of(quant)
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+                    ClienteFacade clientefacade = new ClienteFacade();
+                    Cliente cliente = new Cliente();
+                    Produto produto = new Produto();
+                    PedidoProduto pedidoproduto = new PedidoProduto();
+                    Pedido pedido= new Pedido();
+                    List<PedidoProduto> listaProdutos= new ArrayList<>();
+                    for (int i = 0; i <= produtos.length; i++ ){
+                        produto = clientefacade.buscarProduto(produtos[i]);
+                        pedidoproduto.setProduto(produto);
+                        pedidoproduto.setQuantidade(quantidade[i]);
+                        listaProdutos.add(pedidoproduto); 
+                    }
+                    pedido.setPedidoProduto(listaProdutos);
+                    pedido.setPrazo(new Date());
+                    pedido.setOrcamento(pedido.calculaOrcamento());
+                    pedido.setStatus(REJEITADO);
+                    int idPedido = clientefacade.adicionarPedido(pedido);
+                    cliente = clientefacade.buscarCliente(id);
+                    List<Pedido> pedidos= new ArrayList<>();
+                    pedidos.add(pedido);
+                    cliente.setPedidos(pedidos);
+                    clientefacade.atualizarCliente(cliente);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Cliente/inicialCliente.jsp");
+                    request.setAttribute("msg", "Pedido Rejeitado!");
+                    dispatcher.forward(request,response);    
+                   }catch (NumberFormatException e) {        
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Erro ao converter dados para o formato correto");
+                       dispatcher.forward(request,response);
+                   }catch (ArrayIndexOutOfBoundsException e) {
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Erro ao acessar dados fora do limite do array");
+                       dispatcher.forward(request,response);
+                   }catch (Exception e) {
+                       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Erro.jsp");
+                       request.setAttribute("mensagem", "Ocorreu um erro inesperado");
+                       dispatcher.forward(request,response);
                    }
-                   pedido.setPedidoProduto(listaProdutos);
-                   pedido.setPrazo(new Date());
-                   pedido.setOrcamento(pedido.calculaOrcamento());
-                   pedido.setStatus(REJEITADO);
-                   int idPedido = clientefacade.adicionarPedido(pedido);
-                   cliente = clientefacade.buscarCliente(id);
-                   List<Pedido> pedidos= new ArrayList<>();
-                   pedidos.add(pedido);
-                   cliente.setPedidos(pedidos);
-                   clientefacade.atualizarCliente(cliente);
-                   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Cliente/inicialCliente.jsp");
-                   request.setAttribute("msg", "Pedido Rejeitado!");
-                   dispatcher.forward(request,response);       
              }
              else if(action.equals ("consultarPedido")){
+                try{ 
                     String idm = request.getParameter("id");
                     int id = Integer.parseInt(idm);
                     ClienteFacade clientefacade = new ClienteFacade();
                     Pedido pedido = new Pedido();
                     pedido = clientefacade.buscarPedido(id);
-                        if (pedido != null){
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ConsultaPedido.jsp");
+                    request.setAttribute("consultaPedido", pedido);
+                    dispatcher.forward(request,response);
+                     } catch (NumberFormatException e) {
                         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ConsultaPedido.jsp");
-                        request.setAttribute("consultaPedido", pedido);
+                        request.setAttribute("msg", "O ID deve ser um número inteiro");
                         dispatcher.forward(request,response);
-                        }else{
-                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ConsultaPedido.jsp");
-                            request.setAttribute("msg", "Pedido não encontrado");
-                            dispatcher.forward(request,response);
-                        }  
+                    }  catch (Exception e) {
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ConsultaPedido.jsp");
+                        request.setAttribute("msg", "Ocorreu um erro ao buscar o pedido");
+                        dispatcher.forward(request,response);
+                    }           
              }
              else if (action.equals("cancelarPedido")){
                     String idm = request.getParameter("id");

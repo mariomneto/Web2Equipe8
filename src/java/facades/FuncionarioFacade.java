@@ -4,43 +4,37 @@
  */
 package facades;
 
-import dao.ClienteDAO;
-import dao.ProdutoDAO;
-import dao.PedidoDAO;
-import java.util.List;
-import classes.Cliente;
+import classes.Funcionario;
 import classes.Pedido;
 import classes.Produto;
 import java.util.List;
-
-
+import dao.ProdutoDAO;
+import dao.PedidoDAO;
 
 /**
  *
  * @author T-GAMER
  */
-public class ClienteFacade {
-    ClienteDAO clientedao= new ClienteDAO();
-    ProdutoDAO produtodao= new ProdutoDAO();
-    PedidoDAO pedidodao= new PedidoDAO();
+public class FuncionarioFacade {
+    ProdutoDAO produtodao = new ProdutoDAO();
+    FuncionarioDAO funcionariodao = new FuncionarioDAO();
+    PedidoDAO pedidodao = new PedidoDAO();
     
-    
-   public List <Cliente> listarClientes(){
-        return clientedao.listar();
-    }
-   public Cliente buscarCliente(int id){
-       return clientedao.buscar(id);
+   public List<Funcionario> listarFuncionarios(){
+        return funcionariodao.listar();
    }
-   public void adicionarCliente(Cliente cliente){
-       clientedao.adicionar(cliente);
+   public Funcionario buscarFuncionario(int id){
+        return funcionariodao.buscar(id);
    }
-   public void atualizarCliente(Cliente cliente){
-       clientedao.atualizar(cliente);
+   public void adicionaFuncionario(Funcionario funcionario){
+       funcionariodao.adicionar(funcionario);
    }
-   public void removerCliente(int id){
-       clientedao.remover(id);  
+   public void atualizarFuncionario(Funcionario funcionario){
+       funcionariodao.atualizar(funcionario);
    }
-   
+   public void removerFuncionario(int id){
+       funcionariodao.remover(id);
+   }
    public List<Produto> listarProdutos(){
        return produtodao.listar();
    }
@@ -63,6 +57,9 @@ public class ClienteFacade {
    public Pedido buscarPedido(int id){
       return pedidodao.buscar(id);
    }
+   public List<Pedido> listarPedidoStatus(String status){
+      return pedidodao.buscar(status);
+   }
    public int adicionarPedido(Pedido pedido){
        return pedidodao.adicionar(pedido);
    }
@@ -72,5 +69,5 @@ public class ClienteFacade {
    public void removerPedido(int id){
        pedidodao.remover(id);
    }
-   
+    
 }

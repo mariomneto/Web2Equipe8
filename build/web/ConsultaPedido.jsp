@@ -7,7 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.lang.String"%>
 <%@ page import="classes.Pedido"%>
-<%@ page import=" static classes.Pedido.Status.AGUARDANDO_PAGAMENTO"%>
+<%@ page import=" static classes.Pedido.Status.*"%>
 <%@ page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
@@ -19,17 +19,12 @@
     <head>
         <link href="resource/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
         <link href="resource/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-   <c:choose>
+  <c:choose>
            <c:when test="${not empty sessionScope.login}">
-               <a class=navbar-brand href=#><c:out value="${sessionScope.login}" /></a>
-                </c:when>
-           <c:otherwise>
-               <jsp:forward page="index.jsp">
-                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o Sistema"/>
-                </jsp:forward>
-                </c:otherwise>
-       </c:choose> 
     </head>
         <%@include  file="navbar.jsp" %>
         <title>Consulta Pedido</title>
@@ -67,32 +62,42 @@
                                         </tr>
                                     </thead>
                          <tbody>
-                                        <tr> <tr>
-                                        <tr> 
-                                            <td><c:out value="${pedido.numPedido}" /></td>
-                                            <td><c:forEach items="${pedido.pedidoProduto}" var="pedidos" >
-                                                    <c:out value="${pedidos.produto.nome}" /><br>
-                                                      </c:forEach>
-                                          </td>
-                                            <td><c:forEach items="${pedido.pedidoProduto}" var="pedido1" >
-                                                    <c:out value="${pedido1.produto.valor}" /><br>
-                                            </c:forEach>
-                                               </td>
-                                            <td><c:forEach items="${pedido.pedidoProduto}" var="pedido2" >
-                                                <c:out value="${pedido2.quantidade}" /><br>
-                                            </c:forEach>
-                                                  </td>
-                                            <td><c:out value="${pedido.prazoFormatado}"/></td>
-                                            <td><c:out value="${pedido.status}"/></td>
-                                            <fmt:setLocale value="pt-BR" />
-                                            <td><fmt:formatNumber value="${pedido.orcamento}" minFractionDigits="2" type="currency" /></td>
-                                                 <c:if test="${pedido.status eq 'AGUARDANDO_PAGAMENTO'}" >
-                                                     <c:url value="/ClienteServlet?action=pagarForm&id=${pedido.numPedido}" var="url"/>
-                                                 <td><a class="btn btn-success" href="${url}"/>
-                                                 <i class="icon-shopping-cart icon-large"></i> Efetuar Pagamento </a></td>
-                                                 </tr>
-                                                    </c:if>
-                                                  </c:if>
+                           <tr> <tr>
+                            <tr> 
+                                <td><c:out value="${pedido.numPedido}" /></td>
+                                <td><c:forEach items="${pedido.pedidoProduto}" var="pedidos" >
+                                        <c:out value="${pedidos.produto.nome}" /><br>
+                                  </c:forEach>
+                                 </td>
+                               <fmt:setLocale value="pt-BR" />
+                                <td><c:forEach items="${pedido.pedidoProduto}" var="pedido1" >
+                                       <fmt:formatNumber value="${pedido1.produto.valor}" minFractionDigits="2" type="currency" /><br>
+                                   </c:forEach>
+                                </td>
+                                <td><c:forEach items="${pedido.pedidoProduto}" var="pedido2" >
+                                        <c:out value="${pedido2.quantidade}" /><br>
+                                  </c:forEach>
+                                </td>
+                                <td><c:out value="${pedido.prazoFormatado}"/></td>
+                                <td><c:out value="${pedido.status}"/></td>
+                                <td><fmt:formatNumber value="${pedido.orcamento}" minFractionDigits="2" type="currency" /></td>
+                                <c:if test="${pedido.status eq 'AGUARDANDO_PAGAMENTO'}" >
+                                           <c:url value="/ClienteServlet?action=pagarForm&id=${pedido.numPedido}" var="url"/>
+                                <td><a class="btn btn-success" href="#" data-toggle="modal" data-target="#pagarModal">
+                                      <i class="icon-shopping-cart icon-large"></i> Efetuar Pagamento</a>
+                                </td>
+                                          </c:if>
+                           
+                                         
+                                <c:if test="${pedido.status eq 'EM_ABERTO'}" >
+                                                     <c:url value="/ClienteServlet?action=cancelarPedido&id=${pedido.numPedido}" var="url"/>
+                                <td> <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#cancelarModal">
+                                     <i></i> Cancelar Pedido</a>
+                                </td>
+                                                
+                       </c:if>
+                            </tr>                
+                   </c:if>
                 <c:if test='${not empty requestScope["msg"]}'>
                              <c:set var="mensagem" value='${requestScope["msg"]}'/>
                              <div class="text-center">
@@ -112,7 +117,73 @@
                                 </div>
                         </div></c:if>
 
-    </body>
+    <!-- Modal para pagamento -->
+    <div class="modal fade" id="pagarModal" tabindex="-1" role="dialog" aria-labelledby="pagarModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pagarModalLabel">Efetuar Pagamento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja efetuar o pagamento desse pedido?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-success" href="${url}">OK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+       <!-- Modal Cancelamento-->
+       <div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="cancelarModalLabel" aria-hidden="true">
+           <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h5 class="modal-title" id="cancelarModalLabel">Cancelar Pedido</h5>
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                       </button>
+                   </div>
+                   <div class="modal-body">
+                       Deseja realmente cancelar o pedido?
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                       <a class="btn btn-danger" href="${url}">Confirmar</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </body>
+    <script>
+        $(document).ready(function() {
+            $('#pagarModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var url = button.data('url'); 
+            var modal = $(this);
+            modal.find('#pagarForm').attr('action', url);
+            });
+
+            $('#cancelarModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var url = button.data('url'); 
+            var modal = $(this);
+            modal.find('#cancelarPedido').attr('href', url);
+            });
+        });
+    </script>
+  </body>
+  </c:when>
+           <c:otherwise>
+               <jsp:forward page="index.html">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o Sistema"/>
+               </jsp:forward>
+           </c:otherwise>
+       </c:choose>
    
 
 </html>

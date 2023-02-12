@@ -3,18 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/cadastro.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/navbar.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/ManutencaoFuncionarios.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/index.html</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/src/java/classes/Pedido.java</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/ManutencaoPecasdeRoupa.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/PagamentoPedido.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/src/java/servlets/CadastroServlet.java</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/ConsultaPedido.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/src/java/servlets/LoginServlet.java</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/login.jsp</file>
-            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/att/Web2Equipe8/web/Cliente/inicialCliente.jsp</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/Cliente.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/web/ConsultaPedido.jsp</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/Usuario.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/servlets/ClienteServlet.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/PagamentoCartao.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/PedidoProduto.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/web/PagamentoPedido.jsp</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/facades/ClienteFacade.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/Pedido.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/Produto.java</file>
+            <file>file:/C:/Users/T-GAMER/Documents/Orientada%20a%20Objetos/Web2Equipe8/src/java/classes/Funcionario.java</file>
         </group>
     </open-files>
 </project-private>
