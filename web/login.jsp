@@ -22,11 +22,11 @@
                                     <input type="password" class="form-control form-control-user"
                                         placeholder="Senha" id="senha" name="senha">
                                 </div>
-                                <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Logar" />
+                                <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Logar" action="LoginServlet" />
                             </form>
                     </div>
                     <div class="text-center">
-                        <a class="small" href="cadastro.jsp">Cadastrar uma conta.</a>
+                        <a class="small" href="Cadastro.jsp">Cadastrar uma conta.</a>
                     </div>
                 </div>    
             </div>

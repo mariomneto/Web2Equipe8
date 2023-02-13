@@ -1,6 +1,5 @@
 package classes;
 
-import static classes.Pedido.Status.AGUARDANDO_PAGAMENTO;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class Pedido implements Serializable{
         FINALIZADO
     }
     
+    private int id;
     private Status status;
     private double orcamento;
     private Date prazo;
@@ -114,7 +114,56 @@ public class Pedido implements Serializable{
     public void setPrazo(Date prazo) {
         this.prazo = prazo;
     }
-  
     
+    public int getId(){
+        return this.id;
+    }
+  
+    public void setId(int id){
+        this.id = id;
+    }
+    
+    public int getIdEstadoPedido() {
+        switch (this.status) {
+            case EM_ABERTO:
+                return 1;
+            case REJEITADO:
+                return 2;
+            case CANCELADO:
+                return 3;
+            case RECOLHIDO:
+                return 4;
+            case AGUARDANDO_PAGAMENTO:
+                return 5;
+            case PAGO:
+                return 6;
+            case FINALIZADO:
+                return 7;
+        }
+        
+        return 0;
+    }
+    
+    public Status getEstadoPedidoDoId(int id) {
+        switch (id) {
+            case 1:
+                return Status.EM_ABERTO;
+            case 2:
+                return Status.REJEITADO;
+            case 3:
+                return Status.CANCELADO;
+            case 4:
+                return Status.RECOLHIDO;
+            case 5:
+                return Status.AGUARDANDO_PAGAMENTO;
+            case 6:
+                return Status.PAGO;
+            case 7:
+                return Status.FINALIZADO;
+            default: 
+                return Status.EM_ABERTO; 
+        }
+         
+    }
    
 }

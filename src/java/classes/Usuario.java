@@ -8,10 +8,12 @@ public class Usuario implements Serializable{
         FUNCIONARIO
     }
     
+    private int id;
     private String CPF;
     private String nome;
     private String email;
-    private String endereco;
+    private String CEP;
+    private int numeroCasa;
     private String telefone;
     private String senha;
     private Tipo tipoUsuario;
@@ -19,11 +21,12 @@ public class Usuario implements Serializable{
     public Usuario(){
         
     }
-    public Usuario(String CPF, String nome, String email, String endereco, String telefone, String senha, Tipo tipoUsuario){
+    public Usuario(String CPF, String nome, String email, String CEP, int numeroCasa, String telefone, String senha, Tipo tipoUsuario){
         this.CPF = CPF;
         this.nome = nome;
         this.email = email;
-        this.endereco = endereco;
+        this.CEP = CEP;
+        this.numeroCasa = numeroCasa;
         this.telefone = telefone;
         this.senha = senha;
         this.tipoUsuario = tipoUsuario;
@@ -46,19 +49,27 @@ public class Usuario implements Serializable{
     }
 
     public String getEmail() {
-        return nome;
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getCEP() {
+        return CEP;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setCEP(String CEP) {
+        this.CEP = CEP;
+    }
+    
+    public int getNumeroCasa() {
+        return numeroCasa;
+    }
+
+    public void setNumeroCasa(int numeroCasa) {
+        this.numeroCasa = numeroCasa;
     }
 
     public String getTelefone() {
@@ -75,5 +86,28 @@ public class Usuario implements Serializable{
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+    
+    public void setTipoUsuario(Tipo tipo){
+        this.tipoUsuario = tipo;
+    }
+    
+    public Tipo getTipoUsuario(){
+        return this.tipoUsuario;
+    }
+    
+    public int getIdFuncao() {
+        if(this.tipoUsuario == Tipo.CLIENTE) {
+            return 1;
+        }
+        return 2;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getId() {
+        return this.id;
     }
 }
