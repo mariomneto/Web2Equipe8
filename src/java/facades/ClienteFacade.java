@@ -28,8 +28,8 @@ public class ClienteFacade {
    public List <Cliente> listarClientes(){
         return clientedao.listar();
     }
-   public Cliente buscarCliente(int id){
-       return clientedao.buscar(id);
+   public Cliente buscarCliente(String CPF){
+       return clientedao.buscar(CPF);
    }
    public void adicionarCliente(Cliente cliente){
        clientedao.adicionar(cliente);
@@ -37,8 +37,8 @@ public class ClienteFacade {
    public void atualizarCliente(Cliente cliente){
        clientedao.atualizar(cliente);
    }
-   public void removerCliente(int id){
-       clientedao.remover(id);  
+   public void removerCliente(String CPF){
+       clientedao.remover(CPF);  
    }
    
    public List<Produto> listarProdutos(){

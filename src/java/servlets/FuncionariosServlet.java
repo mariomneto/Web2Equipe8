@@ -4,9 +4,11 @@
  */
 package servlets;
 
+import classes.Funcionario;
 import classes.Pedido;
 import static classes.Pedido.Status.*;
 import classes.Produto;
+import classes.Usuario;
 import facades.FuncionarioFacade;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -17,6 +19,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -277,7 +282,130 @@ public class FuncionariosServlet extends HttpServlet {
                             dispatcher.forward(request, response);
                         }
                     }
+                    else if(action.equals("listarFuncionarios")){
+                       try{
+                                FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                                List<Funcionario> funcionarios= new ArrayList<>();
+                                funcionarios = funcionariofacade.listarFuncionarios();
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManutencaoPecasdeRoupa.jsp");
+                                request.setAttribute("listaFuncionarios", funcionarios );
+                                dispatcher.forward(request,response);    
+                            } catch (Exception e) {
+                                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                 request.setAttribute("msg", "Não foi possível listar os produtos: " + e.getMessage());
+                                 dispatcher.forward(request, response);
+                            }
+                    }  
+                    else if (action.equals("inserirFuncionario")){
+                        try{
+                                FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                                Funcionario funcionario = new Funcionario();
+                                List <Funcionario> funcionarios= new ArrayList<>();
+                                String nome = request.getParameter("nome");
+                                String email = request.getParameter("email");
+                                String CPF = request.getParameter("CPF");
+                                String endereco = request.getParameter("endereco");
+                                String telefone = request.getParameter("telefone");
+                                //String datanascimento = request.getParameter("datanascimento");
+                                // Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(datanascimento);
+                                String senha = request.getParameter("senha");
+                                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                                md.update(senha.getBytes());
+                                byte[] digest = md.digest();
+                                BigInteger bigInt = new BigInteger(1, digest);
+                                String senhaCripto = bigInt.toString(16);
+                                funcionario.setNome(nome);
+                                funcionario.setSenha(senhaCripto);
+                                funcionario.setEmail(email);
+                                funcionario.setCPF(CPF);
+                                funcionario.setEndereco(endereco);
+                                funcionario.setTelefone(telefone);
+                                funcionario.setTipoUsuario(Usuario.Tipo.FUNCIONARIO);
+                                funcionariofacade.adicionarFuncionario(funcionario);
+                                funcionarios=funcionariofacade.listarFuncionarios();
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoFuncionarios.jsp");
+                                request.setAttribute("msg", "Funcionario inserido com sucesso!");
+                                request.setAttribute("listaFuncionarios", funcionarios);
+                                dispatcher.forward(request,response); 
+                            } catch (NumberFormatException e) {
+                                request.setAttribute("msg", "O valor informado é inválido");
+                                request.getRequestDispatcher("/paginaDeErro.jsp").forward(request, response);
+                            } catch (Exception e) {
+                                request.setAttribute("msg", "Ocorreu um erro inesperado");
+                                request.getRequestDispatcher("/paginaDeErro.jsp").forward(request, response);
+                            }  
+                        
+                    }
+                    else if(action.equals("atualizarFuncionario")){
+                        try{
+                                Funcionario funcionario= new Funcionario();
+                                funcionario = (Funcionario) session.getAttribute("login");
+                                FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                                String cpfSession= funcionario.getCPF();
+                                List <Funcionario> funcionarios= new ArrayList<>();
+                                String nome = request.getParameter("nome");
+                                String email = request.getParameter("email");
+                                String CPF = request.getParameter("CPF");
+                                String endereco = request.getParameter("endereco");
+                                String telefone = request.getParameter("telefone");
+                                String senha = request.getParameter("senha");
+                                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                                md.update(senha.getBytes());
+                                byte[] digest = md.digest();
+                                BigInteger bigInt = new BigInteger(1, digest);
+                                String senhaCripto = bigInt.toString(16);
+                                funcionario = funcionariofacade.buscarFuncionario(cpfSession);
+                                funcionario.setNome(nome);
+                                funcionario.setSenha(senhaCripto);
+                                funcionario.setEmail(email);
+                                funcionario.setCPF(CPF);
+                                funcionario.setEndereco(endereco);
+                                funcionario.setTelefone(telefone);
+                                funcionariofacade.adicionarFuncionario(funcionario);
+                                funcionarios=funcionariofacade.listarFuncionarios();
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoFuncionarios.jsp");
+                                request.setAttribute("msg", "Funcionario atualziado com sucesso!");
+                                request.setAttribute("listaFuncionarios", funcionarios);
+                                dispatcher.forward(request, response);
+                            } catch (NumberFormatException e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Id inválido. Por favor, insira um número inteiro válido");
+                                dispatcher.forward(request, response);
+                            } catch (NoSuchAlgorithmException e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Ocorreu um erro ao criptografar a senha.");
+                                dispatcher.forward(request, response);      
+                            } catch (Exception e) {
+                                request.setAttribute("msg", "Ocorreu um erro inesperado");
+                                request.getRequestDispatcher("/paginaDeErro.jsp").forward(request, response);
+                            }  
+                              
+                    }
+                    else if(action.equals("removerFuncionario")){
+                        try{
+                                List<Funcionario> funcionarios = new ArrayList<>();
+                                Funcionario funcionario = new Funcionario();
+                                funcionario = (Funcionario) session.getAttribute("login");
+                                String CPF = funcionario.getCPF();
+                                FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                                funcionariofacade.removerFuncionario(CPF);
+                                funcionarios= funcionariofacade.listarFuncionarios();
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoFuncionarios.jsp");
+                                request.setAttribute("msg", "Funcionario removido com sucesso!");
+                                request.setAttribute("listaFuncionarios", funcionarios);
+                                dispatcher.forward(request, response);
+                            } catch (NumberFormatException e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Id inválido. Por favor, insira um número inteiro válido.");
+                                dispatcher.forward(request, response);
+                            } catch (Exception e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Ocorreu um erro ao remover o produto. Por favor, tente novamente mais tarde.");
+                                dispatcher.forward(request, response);
+                            }    
+                    }  
                 }
+                
             }    
     }
 
