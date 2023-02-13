@@ -3,13 +3,19 @@
     Created on : 2 de dez. de 2022, 15:19:15
     Author     : edu__
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.lang.String"%>
+<%@ page import="classes.Pedido"%>
+<%@ page import=" static classes.Pedido.Status"%>
+<%@ page import="java.util.ArrayList"%>
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>listagem pedido tabela</title>
         <link rel="stylesheet" href="../css/sb-admin-2.min.css">
         <link rel="stylesheet" href="../css/listagemPedido.css">
         <script src="listagemPedido.js"></script>
@@ -21,7 +27,16 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
         <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+     <link href="resource/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+     <link href="resource/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
     </head>
+    <%@include  file="navbar.jsp" %>
     <body class="bg-gradient-primary">
         <div class="container-fluid">
             <h1 class="h3 mb-2 text-white">Cliente</h1>
@@ -157,3 +172,4 @@
         </script>
     </body>
 </html>
+
