@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,23 +26,50 @@
 
      <link href="resource/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
      <link href="resource/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
+ <c:choose>
+           <c:when test="${not empty sessionScope.login}">
+     
 </head>
  <%@include  file="navbar.jsp" %>
 
     <!-- Page Wrapper -->
-    <div id="wrapper">
-
-
-
-  
+      <div id="wrapper">
+        <c:if test='${ not empty requestScope["form"]}' >   
+                <c:set var="form" value='${requestScope["form"]}'/>
+                </c:if>
+                <c:choose>
+                   <c:when test="${form eq 'alterar'}">
+                    <c:set var="Span" value="Alterar Funcionario"/> 
+                    <c:url value="FuncionariosServlet?action=atualizarFuncionario&CPF=${id}" var="Url"/>
+                    <c:set var="funcionario" value='${requestScope.funcionario}'/>
+                    <c:set var="CPF" value='${funcionario.CPF}'/>
+                    <c:set var="nome" value='${funcionario.nome}'/>
+                    <c:set var="email" value='${funcionario.email}'/>
+                    <c:set var="Data" value='${funcionario.datanascimento}'/>
+                    <c:set var="Rua" value='${funcionario.endereco}'/>
+                    <c:set var="Senha" value='${funcionario.senha}'/>
+                    <c:set var="cep" value='${funcionario.CEP}'/>
+                    <c:set var="id" value='${cliente.id}'/>
+                   </c:when>
+                  <c:otherwise>
+                      <c:set var="Span" value="Cadastrar Funcionario"/>
+                      <c:url value="FuncionariosServlet?action=inserirFuncionario" var="Url"/>
+                      <c:set var="name" value=""/>
+                      <c:set var="CPF" value=""/>
+                      <c:set var="eMail" value=""/>
+                      <c:set var="Data" value=""/>
+                      <c:set var="Rua" value=""/>
+                      <c:set var="cep" value=""/>
+                      <c:set var="Senha" value=""/>
+                      <c:set var="id" value=""/>
+                    </c:otherwise>
+                </c:choose>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Manutenção de Funcionários</h1>
-                    <p class="mb-4">(CRUD - Inserção, Remoção, Atualização e Listagem) O funcionário pode manter novos funcionários para acesso ao sistema, 
-                        com os seguintes dados: e-mail único para login, nome, data de nascimento, e senha.
+                    <p class="mb-4"><c:out value="${Span}" />
                     </p>
 
                     <!-- DataTales Example -->
@@ -50,27 +78,45 @@
                             <h6 class="m-0 font-weight-bold text-primary">Cadastro Geral Funcionarios</h6>
                         </div>
                         <div class="card-body">
-                            <form class="user" action="FuncionariosServlet" method = "POST">
+                            <form class="user" action="${Url}" method = "POST">
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user"
-                                    placeholder="Nome" id="nome" name="nome">
+                                    placeholder="Nome" id="nome" name="nome" value="<c:out value="${nome}"/>">
                             </div>
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-user"
-                                    placeholder="E-mail" id="email" name="email">
+                                    placeholder="E-mail" id="email" name="email" value="<c:out value="${email}"/>">
+                            </div>
+                            <div class="form-group">
+                                <input type="data" class="form-control form-control-user"
+                                    placeholder="Data Nascimento" id="datanascimento" name="datanascimento" value="<c:out value="${Data}"/>">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user"
-                                    placeholder="Data Nascimento" id="datanascimento" name="datanascimento">
+                                    placeholder="Senha" id="senha" name="senha" value="<c:out value="${senha}"/>">
+                            </div>  <div class="form-group">
+                                <input type="data" class="form-control form-control-user"
+                                    placeholder="CPF" id="CPF" name="CPF" value="<c:out value="${CPF}"/>">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user"
-                                    placeholder="Senha" id="senha" name="senha">
+                                    placeholder="numero rua" id="endereco" name="endereco" value="<c:out value="${Rua}"/>">
                             </div>
-                                <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Cadastrar" />
-                                <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Editar" />
-                                <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Excluir" />
-                                <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Listar" />
+                             <div class="form-group">
+                                <input type="text" class="form-control form-control-user"
+                                    placeholder="cep" id="cep" name="cep" value="<c:out value="${cep}"/>">
+                            </div>   </div>
+                             <div class="form-group">
+                                 <input type="hidden" id="id" name="id" value="${id}">
+                            </div>
+                                    <c:choose>
+                                        <c:when test="${form eq 'alterar'}">
+                                            <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Cadastrar" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type = "submit" class="btn btn-primary btn-user btn-block" value = "Editar" />  
+                                        </c:otherwise>
+                                    </c:choose>
                         </form>
                         </div>
                         </div>
@@ -87,5 +133,12 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+</c:when>
+<c:otherwise>
+    <jsp:forward page="index.html">
+        <jsp:param name="msg" value="Usuário deve se autenticar para acessar o Sistema"/>
+    </jsp:forward>
+</c:otherwise>
+</c:choose>
 
 </html>

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,16 +26,13 @@
 
      <link href="resource/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
      <link href="resource/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
+    <c:choose>
+           <c:when test="${not empty sessionScope.login}">
 </head>
  <%@include  file="navbar.jsp" %>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-
-
-  
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -47,7 +45,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Peças de Roupas Registradas</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Funcionários Registrados</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -57,8 +55,7 @@
                                             <th>Nome</th>
                                             <th>Email</th>
                                             <th>Data Nascimento</th>
-                                            <th>Senha</th>
-                                            <th style="text-align:center">Salvar - Alterar - Excluir</th>
+                                            <th style="text-align:center">Visualizar</th><th style="text-align:center">Editar</th><th style="text-align:center">Deletar</th><tr>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -66,95 +63,52 @@
                                             <th>Nome</th>
                                             <th>Email</th>
                                             <th>Data Nascimento</th>
-                                            <th>Senha</th>
-                                            <th style="text-align:center">Salvar - Alterar - Excluir</th>
+                                            <th style="text-align:center">Visualizar</th><th style="text-align:center">Editar</th><th style="text-align:center">Deletar</th><tr>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Camile</td>
-                                            <td>camile@gmail.com</td>
-                                            <td>10/03/1999</td>
-                                            <td>*******</td>
+                                    <tbody>  
+                                    <c:forEach items="${requestScope.listaFuncionarios}" var="funcionario" >    
+                                        <tr><td>${funcionario.CPF}</td>
+                                            <td>${funcionario.nome}</td>
+                                            <td>${funcionario.email}</td>
                                             <td align="center">
-                                                <button class="btn btn-success btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-warning btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-exclamation-triangle"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-circle btn-sm" type="button">
-                                                        <i class="fas fa-trash"></i>
-                                                </button>
+                                                <a class="btn btn-success btn-circle btn-sm" href="FuncionarioServlet?action=atualizarFuncionarioForms&CPF=${cliente.CPF}" role="button">
+                                                    <i class="fas fa-search"></i></a>                    
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Matheus</td>
-                                            <td>matheus@yahoo.com</td>
-                                            <td>18/02/1997</td>
-                                            <td>*******</td>
+                                            <td align="center">   
+                                                <a class="btn btn-warning btn-circle btn-sm" href="FuncionarioServlet?action=atualizarFuncionarioForms&CPF=${cliente.CPF}" role="button">
+                                                    <i class="fas fa-pencil-alt"></i></a>
+                                            </td>
                                             <td align="center">
-                                                <button class="btn btn-success btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-warning btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-exclamation-triangle"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-circle btn-sm" type="button">
-                                                        <i class="fas fa-trash"></i>
-                                                </button>
+                                                <a class="btn btn-danger btn-circle btn-sm" href="FuncionarioServlet?action=removerFuncionario&CPF=${cliente.CPF}" role="button">
+                                                    <i class="fas fa-trash"></i></a>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Eduardo</td>
-                                            <td>eduardo@gmail.com</td>
-                                            <td>10/07/1992</td>
-                                            <td>*******</td>
-                                            <td align="center">
-                                                <button class="btn btn-success btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-warning btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-exclamation-triangle"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-circle btn-sm" type="button">
-                                                        <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cristopher</td>
-                                            <td>cristopher@gmail.com</td>
-                                            <td>10/08/1995</td>
-                                            <td>*******</td>
-                                            <td align="center">
-                                                <button class="btn btn-success btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                                <button class="btn btn-warning btn-circle btn-sm" type="button">
-                                                    <i class="fas fa-exclamation-triangle"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-circle btn-sm" type="button">
-                                                        <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                        </tr>   
+                                    </c:forEach>
                                 </table>
+                                <div>
+                                    <a class="btn btn-success btn-sm" href="FuncionarioServlet?action=formNew" role="button">
+                                        <i class="fas fa-plus"></i> Novo Funcionario</a></div>
                             </div>
-                        </div>
-                    </div>
-
+                                   
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
-
+                    </div>
+                </div>
+   </div>
        
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+        </c:when>
+           <c:otherwise>
+               <jsp:forward page="index.html">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o Sistema"/>
+                </jsp:forward>
+                </c:otherwise>
+       </c:choose>
 
 </html>

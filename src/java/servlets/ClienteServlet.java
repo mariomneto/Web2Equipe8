@@ -47,7 +47,7 @@ public class ClienteServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+          HttpSession session = request.getSession();
             if (session.getAttribute("login") == null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.html");
             request.setAttribute("msg", "Usuário necessita estar logado no Sistema");
@@ -59,9 +59,9 @@ public class ClienteServlet extends HttpServlet {
               try{
                     Cliente cliente = new Cliente();
                     cliente = (Cliente) session.getAttribute("login");
-                    String CPF = cliente.getCPF();
+                    int id = cliente.getId();
                     ClienteFacade clientefacade = new ClienteFacade();         
-                    cliente = clientefacade.buscarCliente(CPF);
+                    cliente = clientefacade.buscarCliente(id);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listagemPedidoTabela.jsp");
                     request.setAttribute("pedidosCliente", cliente);
                     dispatcher.forward(request,response);
@@ -135,7 +135,7 @@ public class ClienteServlet extends HttpServlet {
                try {
                     Cliente cliente = new Cliente();
                     cliente = (Cliente) session.getAttribute("login");
-                    String CPF = cliente.getCPF();
+                    int id = cliente.getId();
                     String [] prod = request.getParameterValues("produtoselecionados");
                     int[] produtos = Stream.of(prod)
                            .mapToInt(Integer::parseInt)
@@ -160,7 +160,7 @@ public class ClienteServlet extends HttpServlet {
                     pedido.setOrcamento(pedido.calculaOrcamento());
                     pedido.setStatus(EM_ABERTO);
                     int idPedido = clientefacade.adicionarPedido(pedido);
-                    cliente = clientefacade.buscarCliente(CPF);
+                    cliente = clientefacade.buscarCliente(id);
                     List<Pedido> pedidos= new ArrayList<>();
                     pedidos.add(pedido);
                     cliente.setPedidos(pedidos);
@@ -186,7 +186,7 @@ public class ClienteServlet extends HttpServlet {
               try{
                     Cliente cliente = new Cliente();
                     cliente = (Cliente) session.getAttribute("login");
-                    String CPF = cliente.getCPF();
+                    int id = cliente.getId();
                     String [] prod = request.getParameterValues("produtoselecionados");
                      int[] produtos = Stream.of(prod)
                            .mapToInt(Integer::parseInt)
@@ -211,7 +211,7 @@ public class ClienteServlet extends HttpServlet {
                     pedido.setOrcamento(pedido.calculaOrcamento());
                     pedido.setStatus(REJEITADO);
                     int idPedido = clientefacade.adicionarPedido(pedido);
-                    cliente = clientefacade.buscarCliente(CPF);
+                    cliente = clientefacade.buscarCliente(id);
                     List<Pedido> pedidos= new ArrayList<>();
                     pedidos.add(pedido);
                     cliente.setPedidos(pedidos);
@@ -329,6 +329,8 @@ public class ClienteServlet extends HttpServlet {
              
         }
     }
+    
+    
     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

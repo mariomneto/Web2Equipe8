@@ -184,24 +184,24 @@ public class FuncionariosServlet extends HttpServlet {
                         }
                     }
                     else if (action.equals("inserirProduto")){
-                        FuncionarioFacade funcionariofacade = new FuncionarioFacade();
-                        Produto produto = new Produto();
-                        List<Produto> produtos = new ArrayList<>();
-                        String nome = request.getParameter("nome");
-                        String data = request.getParameter("prazolavagem");
-                        String val= request.getParameter("valorunitario");
-                        try{
-                        double valor = Double.parseDouble(val);
-                        Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(data);
-                        produto.setNome(nome);
-                        produto.setPrazo(date1);
-                        produto.setValor(valor);
-                        funcionariofacade.adicionarProduto(produto);
-                        produtos=funcionariofacade.listarProdutos();
-                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoPecasdeRoupa.jsp");
-                        request.setAttribute("msg", "Produto inserido com sucesso!");
-                        request.setAttribute("listaProdutos", produtos);
-                        dispatcher.forward(request,response); 
+                            FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                            Produto produto = new Produto();
+                            List<Produto> produtos = new ArrayList<>();
+                            String nome = request.getParameter("nome");
+                            String data = request.getParameter("prazolavagem");
+                            String val= request.getParameter("valorunitario");
+                            try{
+                            double valor = Double.parseDouble(val);
+                            Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(data);
+                            produto.setNome(nome);
+                            produto.setPrazo(date1);
+                            produto.setValor(valor);
+                            funcionariofacade.adicionarProduto(produto);
+                            produtos=funcionariofacade.listarProdutos();
+                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoPecasdeRoupa.jsp");
+                            request.setAttribute("msg", "Produto inserido com sucesso!");
+                            request.setAttribute("listaProdutos", produtos);
+                            dispatcher.forward(request,response); 
                         } catch (NumberFormatException e) {
                             request.setAttribute("mensagemErro", "O valor informado é inválido");
                             request.getRequestDispatcher("/paginaDeErro.jsp").forward(request, response);
@@ -213,15 +213,33 @@ public class FuncionariosServlet extends HttpServlet {
                             request.getRequestDispatcher("/paginaDeErro.jsp").forward(request, response);
                         }  
                     }
+                    else if(action.equals("inserirProdutoForm")){
+                          RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarProdutos.jsp");
+                          request.setAttribute("form", "novoProduto");
+                          dispatcher.forward(request,response);
+                        
+                    }
                     else if(action.equals("atualizarProdutoForm")){
-                        String idm = request.getParameter("id");
-                        int id = Integer.parseInt(idm);
-                        FuncionarioFacade funcionariofacade = new FuncionarioFacade();
-                        Produto produto = new Produto();
-                        produto=funcionariofacade.buscarProduto(id);
-                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarPecasRoupa.jsp");
-                        request.setAttribute("attproduto", produto);
-                        dispatcher.forward(request, response);
+                       try{
+                            String idm = request.getParameter("id"); 
+                            int id = Integer.parseInt(idm);
+                            FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                            Produto produto = new Produto();
+                            produto=funcionariofacade.buscarProduto(id);
+                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarPecasRoupa.jsp");
+                            request.setAttribute("attproduto", produto);
+                            dispatcher.forward(request, response);
+                            } catch (NumberFormatException e) {
+                                // Handle the error where the user input for "id" is not a number
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarPecasRoupa.jsp");
+                                request.setAttribute("msgErro", "Erro ao buscar produto: o ID precisa ser um número inteiro.");
+                                dispatcher.forward(request, response);
+                            } catch (Exception e) {
+                                // Handle any other exceptions that may occur
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarPecasRoupa.jsp");
+                                request.setAttribute("msgErro", "Erro ao buscar produto: " + e.getMessage());
+                                dispatcher.forward(request, response);
+                            }
                     }
                     else if(action.equals("atualizarProduto")){
                        try{
@@ -272,15 +290,15 @@ public class FuncionariosServlet extends HttpServlet {
                                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoPecasdeRoupa.jsp");
                                 request.setAttribute("msg", "Produto removido com sucesso!");
                                 request.setAttribute("listaProdutos", produtos);
-                        } catch (NumberFormatException e) {
-                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
-                            request.setAttribute("msg", "Id inválido. Por favor, insira um número inteiro válido.");
-                            dispatcher.forward(request, response);
-                        } catch (Exception e) {
-                            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
-                            request.setAttribute("msg", "Ocorreu um erro ao remover o produto. Por favor, tente novamente mais tarde.");
-                            dispatcher.forward(request, response);
-                        }
+                            } catch (NumberFormatException e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Id inválido. Por favor, insira um número inteiro válido.");
+                                dispatcher.forward(request, response);
+                            } catch (Exception e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Ocorreu um erro ao remover o produto. Por favor, tente novamente mais tarde.");
+                                dispatcher.forward(request, response);
+                            }
                     }
                     else if(action.equals("listarFuncionarios")){
                        try{
@@ -304,7 +322,9 @@ public class FuncionariosServlet extends HttpServlet {
                                 String nome = request.getParameter("nome");
                                 String email = request.getParameter("email");
                                 String CPF = request.getParameter("CPF");
-                                String endereco = request.getParameter("endereco");
+                                String cep = request.getParameter("cep");
+                                String nrua = request.getParameter("endereco");
+                                int num = Integer.parseInt(nrua);
                                 String telefone = request.getParameter("telefone");
                                 //String datanascimento = request.getParameter("datanascimento");
                                 // Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(datanascimento);
@@ -318,8 +338,9 @@ public class FuncionariosServlet extends HttpServlet {
                                 funcionario.setSenha(senhaCripto);
                                 funcionario.setEmail(email);
                                 funcionario.setCPF(CPF);
-                                funcionario.setEndereco(endereco);
+                                funcionario.setCEP(cep);
                                 funcionario.setTelefone(telefone);
+                                funcionario.setNumeroCasa(num);
                                 funcionario.setTipoUsuario(Usuario.Tipo.FUNCIONARIO);
                                 funcionariofacade.adicionarFuncionario(funcionario);
                                 funcionarios=funcionariofacade.listarFuncionarios();
@@ -336,17 +357,43 @@ public class FuncionariosServlet extends HttpServlet {
                             }  
                         
                     }
-                    else if(action.equals("atualizarFuncionario")){
-                        try{
+                     else if(action.equals("atualizarFuncionarioForms")){
+                         try{   
+                                String idm = request.getParameter("id");
+                                int id = Integer.parseInt(idm);
                                 Funcionario funcionario= new Funcionario();
-                                funcionario = (Funcionario) session.getAttribute("login");
                                 FuncionarioFacade funcionariofacade = new FuncionarioFacade();
-                                String cpfSession= funcionario.getCPF();
+                                funcionario = funcionariofacade.buscarFuncionario(id);
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarFuncionarios.jsp");
+                                request.setAttribute("funcionario", funcionario);
+                                request.setAttribute("form", "alterar");
+                                dispatcher.forward(request, response);
+                            } catch (Exception e) {
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/paginaDeErro.jsp");
+                                request.setAttribute("msg", "Erro ao buscar funcionario. Por favor, tente novamente.");
+                                dispatcher.forward(request, response);
+                            }
+                                    
+                     }
+                     else if(action.equals("formNew")){
+                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/EditarFuncionarios.jsp");
+                                request.setAttribute("form", "novo");
+                                dispatcher.forward(request,response);   
+                     }
+                     else if(action.equals("atualizarFuncionario")){
+                        try{
+                                String idm = request.getParameter("id");
+                                int id = Integer.parseInt(idm);
+                                Funcionario funcionario= new Funcionario();
+                                FuncionarioFacade funcionariofacade = new FuncionarioFacade();
+                                funcionario = funcionariofacade.buscarFuncionario(id);
                                 List <Funcionario> funcionarios= new ArrayList<>();
                                 String nome = request.getParameter("nome");
                                 String email = request.getParameter("email");
-                                String CPF = request.getParameter("CPF");
-                                String endereco = request.getParameter("endereco");
+                                String cep = request.getParameter("cep");
+                                String CPF= request.getParameter("CPF");
+                                String nrua = request.getParameter("endereco");
+                                int num = Integer.parseInt(nrua);
                                 String telefone = request.getParameter("telefone");
                                 String senha = request.getParameter("senha");
                                 MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -354,17 +401,17 @@ public class FuncionariosServlet extends HttpServlet {
                                 byte[] digest = md.digest();
                                 BigInteger bigInt = new BigInteger(1, digest);
                                 String senhaCripto = bigInt.toString(16);
-                                funcionario = funcionariofacade.buscarFuncionario(cpfSession);
                                 funcionario.setNome(nome);
                                 funcionario.setSenha(senhaCripto);
                                 funcionario.setEmail(email);
                                 funcionario.setCPF(CPF);
-                                funcionario.setEndereco(endereco);
+                                funcionario.setNumeroCasa(num);
+                                funcionario.setCEP(cep);
                                 funcionario.setTelefone(telefone);
                                 funcionariofacade.adicionarFuncionario(funcionario);
                                 funcionarios=funcionariofacade.listarFuncionarios();
                                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoFuncionarios.jsp");
-                                request.setAttribute("msg", "Funcionario atualziado com sucesso!");
+                                request.setAttribute("msg", "Funcionario atualizado com sucesso!");
                                 request.setAttribute("listaFuncionarios", funcionarios);
                                 dispatcher.forward(request, response);
                             } catch (NumberFormatException e) {
@@ -378,17 +425,16 @@ public class FuncionariosServlet extends HttpServlet {
                             } catch (Exception e) {
                                 request.setAttribute("msg", "Ocorreu um erro inesperado");
                                 request.getRequestDispatcher("/paginaDeErro.jsp").forward(request, response);
-                            }  
-                              
+                            }          
                     }
                     else if(action.equals("removerFuncionario")){
                         try{
+                                String idm = request.getParameter("id");
+                                int id = Integer.parseInt(idm);
                                 List<Funcionario> funcionarios = new ArrayList<>();
                                 Funcionario funcionario = new Funcionario();
-                                funcionario = (Funcionario) session.getAttribute("login");
-                                String CPF = funcionario.getCPF();
                                 FuncionarioFacade funcionariofacade = new FuncionarioFacade();
-                                funcionariofacade.removerFuncionario(CPF);
+                                funcionariofacade.removerFuncionario(id);
                                 funcionarios= funcionariofacade.listarFuncionarios();
                                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ManuntencaoFuncionarios.jsp");
                                 request.setAttribute("msg", "Funcionario removido com sucesso!");
@@ -406,7 +452,7 @@ public class FuncionariosServlet extends HttpServlet {
                     }  
                 }
                 
-            }    
+            } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
