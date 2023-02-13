@@ -30,11 +30,11 @@
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user"
-                                    placeholder="Endereço" id="endereco1" name="endereco1">
+                                    placeholder="CEP" id="CEP" name="CEP">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user"
-                                    placeholder="Complemento (opcional)" id="endereco2" name="endereco2">
+                                    placeholder="Numero do endereço" id="numeroCasa" name="numeroCasa">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user"

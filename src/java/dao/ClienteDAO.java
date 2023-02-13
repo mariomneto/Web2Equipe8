@@ -64,7 +64,7 @@ public class ClienteDAO {
                     ResultSet resultadoPedidos = peditoStmt.executeQuery();
                     while (resultadoPedidos.next()) {
                         Pedido pedido = new Pedido();
-                        pedido.setId(resultadoPedidos.getInt("id"));
+                        pedido.setNumPedido(resultadoPedidos.getInt("id"));
                         pedido.setStatus(pedido.getEstadoPedidoDoId(resultadoPedidos.getInt("id_estadoPedido")));
                         pedido.setPrazo(resultadoPedidos.getDate("dataAbertura"));
                         pedido.setOrcamento(resultadoPedidos.getDouble("valor"));
