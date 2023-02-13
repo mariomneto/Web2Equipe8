@@ -21,13 +21,13 @@ public class Pedido implements Serializable{
         FINALIZADO
     }
     
-    private int id;
     private Status status;
     private double orcamento;
     private Date prazo;
     private int numPedido;
     private List<PedidoProduto> PedidoProduto;
     private PagamentoCartao pagamento;
+    private String CPF;
 
     public PagamentoCartao getPagamento() {
         return pagamento;
@@ -115,14 +115,6 @@ public class Pedido implements Serializable{
         this.prazo = prazo;
     }
     
-    public int getId(){
-        return this.id;
-    }
-  
-    public void setId(int id){
-        this.id = id;
-    }
-    
     public int getIdEstadoPedido() {
         switch (this.status) {
             case EM_ABERTO:
@@ -164,6 +156,14 @@ public class Pedido implements Serializable{
                 return Status.EM_ABERTO; 
         }
          
+    }
+    
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
    
 }
